@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import mn.video.lesson.utils.PasswordUtils;
 
 @Entity
 public class User {
@@ -11,7 +12,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name, email, pass, token;
+    private String name, email, pass, token, salt;
     private Integer is_teacher;
 
     // No-args constructor
@@ -25,6 +26,16 @@ public class User {
         this.pass = pass;
         this.token = token;
         this.is_teacher = is_teacher;
+        setSalt();
+    }
+
+    public void setSalt() {
+        String salt = PasswordUtils.getSalt(10);
+        this.salt = salt;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     // Getter and Setter methods

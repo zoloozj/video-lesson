@@ -4,7 +4,7 @@ import mn.video.lesson.utils.PasswordUtils;
 
 public class UserDTO {
     private Long id;
-    private String name, email, pass, token;
+    private String name, email, pass, token, salt;
     private Integer is_teacher;
 
     // No-args constructor
@@ -17,9 +17,17 @@ public class UserDTO {
         this.name = name;
         this.email = email;
         setPass(pass);
-        ;
         this.token = token;
         this.is_teacher = is_teacher;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt() {
+        String salt = PasswordUtils.getSalt(10);
+        this.salt = salt;
     }
 
     // Getter and Setter methods

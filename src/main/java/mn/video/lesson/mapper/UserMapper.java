@@ -15,6 +15,7 @@ public class UserMapper {
                 user.getPass(),
                 user.getToken(),
                 user.getIsTeacher());
+
     }
 
     public static User toUser(UserDTO userDTO) {

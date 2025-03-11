@@ -11,6 +11,7 @@ import mn.video.lesson.entity.Login;
 import mn.video.lesson.entity.User;
 import mn.video.lesson.repositories.UserRepo;
 import mn.video.lesson.services.LoginService;
+import mn.video.lesson.utils.PasswordUtils;
 
 @Service
 public class LoginImpl implements LoginService {
@@ -22,7 +23,7 @@ public class LoginImpl implements LoginService {
         List<User> users = userRepo.findAll();
         for (User user : users) {
             if (login.getEmail().equals(user.getEmail())) {
-                if (login.getPass().equals(user.getPass())) {
+                if (PasswordUtils.verifyUserPassword(login.getPass(), user.getPass(), user.getSalt())) {
                     LoginResponse response = new LoginResponse("Амжилттай нэвтэрлээ", HttpStatus.OK.value());
                     return response;
 
