@@ -6,7 +6,6 @@ import { useSettingsContext } from 'src/components/settings';
 import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
-import { useAuthContext } from 'src/auth/hooks';
 import { Course } from './type';
 import SingleCourse from './_components/course';
 
@@ -14,7 +13,6 @@ import SingleCourse from './_components/course';
 
 export default function OneView() {
   const settings = useSettingsContext();
-  const { user } = useAuthContext();
 
   const [courses, setCourses] = useState<Course[]>([]);
 
