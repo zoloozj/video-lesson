@@ -5,19 +5,17 @@ export async function POST(req: NextRequest) {
   try {
     const dataAll = await req.json();
     const url = dataAll.serviceUrl;
-    const { Authorization } = dataAll;
+    const token = req.headers.get('Authorization');
 
     if (!url) {
       throw new Error('URL is not defined in the request body');
     }
     delete dataAll.serviceUrl;
-    delete dataAll.Authorization;
-    delete dataAll.headers;
     const response = await axios.post(url, dataAll, {
-    //   headers: {
-    //     Authorization,
-    //     'Content-Type': 'application/json',
-    //   },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
 
     return NextResponse.json(response.data);
@@ -31,20 +29,19 @@ export async function POST(req: NextRequest) {
 
 export async function GET(req: NextRequest) {
   try {
+    const token = req.headers.get('Authorization');
+
     const url = decodeURIComponent(req.nextUrl.searchParams.toString().replace('url=', ''));
     if (!url) {
       throw new Error('URL is not defined in the request body');
     }
-
     const response = await axios.get(url, {
-      // headers: {
-      //   'Content-Type': 'application/json',
-      //   username: req.headers.get('username') || 'Unknown User',
-      //   ipAddress:
-      //     req.headers.get('x-forwarded-for')?.split(',')[0].replace('::ffff:', '') || req.ip,
-      //   permission: JSON.stringify(req.headers.get('permission') || {}),
-      // },
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
     });
+    console.log(url, 'BEARER');
     return NextResponse.json(response.data);
   } catch (e: any) {
     return NextResponse.json(

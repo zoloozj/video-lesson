@@ -138,21 +138,26 @@ export function AuthProvider({ children }: Props) {
       email,
       password,
     };
-    const res = await axios.post('/api/post', {
-      ...data,
-      serviceUrl: getBaseUrl(BaseUrlTypes.ENUM_HOST_BASE_URI) + endpoints.auth.login,
-    });
+    const res = await axios.post(
+      '/api/auth/login',
+      {
+        ...data,
+      }
+      //   {
+      //   ...data,
+      //   serviceUrl: getBaseUrl(BaseUrlTypes.ENUM_HOST_BASE_URI) + endpoints.auth.login,
+      // }
+    );
 
-    const { accessToken } = res.data;
-
-    setSession(accessToken);
+    const { token } = res.data;
+    setSession(token);
 
     dispatch({
       type: Types.LOGIN,
       payload: {
         user: {
           // ...user,
-          accessToken,
+          token,
         },
       },
     });

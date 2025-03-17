@@ -30,15 +30,19 @@ export const getBaseUrl = (type: string) => {
     return HOST_API;
   }
   return HOST_API;
-}
+};
 
 export enum BaseUrlTypes {
-  ENUM_HOST_BASE_URI = 'HOST_BASE_URL'
+  ENUM_HOST_BASE_URI = 'HOST_BASE_URL',
 }
 
 export const endpoints = {
   auth: {
     login: '/auth/login',
     register: '/auth/signup',
+    get_all_users: '/users',
+  },
+  course: {
+    get_all_course: '/course',
   },
 };
