@@ -1,38 +1,35 @@
 'use client';
 
-import Box from '@mui/material/Box';
-import { alpha } from '@mui/material/styles';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 
 import { useSettingsContext } from 'src/components/settings';
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
+import { useAuthContext } from 'src/auth/hooks';
+import { Course } from './type';
+import SingleCourse from './_components/course';
 
 // ----------------------------------------------------------------------
 
 export default function OneView() {
   const settings = useSettingsContext();
+  const { user } = useAuthContext();
+
+  const [courses, setCourses] = useState<Course[]>([]);
 
   const getList = useCallback(async () => {
-    const token = sessionStorage.getItem('accessToken');
     try {
       const res = await axios.get(
         `/api/post?url=${getBaseUrl(BaseUrlTypes.ENUM_HOST_BASE_URI)}${
-          endpoints.auth.get_all_users
-        }`,
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
+          endpoints.course.get_all_course
+        }`
       );
-      if (res.status === 200) {
-        console.log(res.data);
+      if (res.status === 200 && res.data) {
+        setCourses(res.data);
       }
     } catch (error) {
-      // console.error(error);
+      console.error(error);
     }
   }, []);
 
@@ -42,18 +39,31 @@ export default function OneView() {
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
-      <Typography variant="h4"> Бүх сургалтууд </Typography>
-
-      <Box
-        sx={{
-          mt: 5,
-          width: 1,
-          height: 320,
-          borderRadius: 2,
-          bgcolor: (theme) => alpha(theme.palette.grey[500], 0.04),
-          border: (theme) => `dashed 1px ${theme.palette.divider}`,
-        }}
-      />
+      <div className="poster">
+        <img
+          style={{ width: '100%' }}
+          src="/assets/home-bg-desktop.jpg"
+          srcSet="/assets/home-bg-tablet.jpg 770w,assets/home-bg-mobile.jpg 360w"
+          sizes="(max-width: 1000px) 770px, (max-width: 769px) 360px"
+          alt="background-image"
+        />
+        <form className="poster-search-container">
+          <label>
+            <h3 className="poster-search-title">Ирээдүйгээ гэрэлтүүл</h3>
+            <p className="poster-search-alert">
+              Бүх сургалтууд 10/29 дуустал 29,900₮ хямдралтай байна
+            </p>
+            <div className="poster-input-search-container">
+              <button className="poster-icon-btn" aria-label="search-bottom">
+                <i className="fas fa-search nav-icon"></i>
+              </button>
+              <input type="text" placeholder="Хайх..." className="poster-search-input" />
+            </div>
+          </label>
+        </form>
+      </div>
+      {courses.length > 0 &&
+        courses.map((course) => <SingleCourse key={course.id} course={course} />)}
     </Container>
   );
 }
