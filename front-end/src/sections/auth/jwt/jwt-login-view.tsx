@@ -41,16 +41,14 @@ export default function JwtLoginView() {
   const password = useBoolean();
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().required('Email is required').email('Email must be a valid email address'),
-    password: Yup.string().required('Password is required'),
+    email: Yup.string().required('Мэйл хаяг оруулна уу!').email('Мэйл хаяг оруулна уу!'),
+    password: Yup.string().required('Нууц үгээ бичнэ үү!'),
   });
 
   const defaultValues = {
     email: '',
     password: '',
   };
-
-  console.log(process.env.NEXT_PUBLIC_BASE_URL);
 
   const methods = useForm({
     resolver: yupResolver(LoginSchema),
@@ -69,9 +67,9 @@ export default function JwtLoginView() {
 
       router.push(returnTo || PATH_AFTER_LOGIN);
     } catch (error) {
-      console.error(error);
+      console.error('ERROR', error);
       reset();
-      setErrorMsg(typeof error === 'string' ? error : error.message);
+      setErrorMsg(error.response.data.error.description);
     }
   });
 

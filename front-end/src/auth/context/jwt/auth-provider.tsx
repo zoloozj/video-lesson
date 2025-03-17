@@ -138,7 +138,6 @@ export function AuthProvider({ children }: Props) {
       email,
       password,
     };
-
     const res = await axios.post('/api/post', {
       ...data,
       serviceUrl: getBaseUrl(BaseUrlTypes.ENUM_HOST_BASE_URI) + endpoints.auth.login,

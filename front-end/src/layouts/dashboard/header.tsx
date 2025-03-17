@@ -54,7 +54,7 @@ export default function Header({ onOpenNav }: Props) {
 
       <Searchbar />
 
-      <Stack
+      {/* <Stack
         flexGrow={1}
         direction="row"
         alignItems="center"
@@ -70,7 +70,7 @@ export default function Header({ onOpenNav }: Props) {
         <SettingsButton />
 
         <AccountPopover />
-      </Stack>
+      </Stack> */}
     </>
   );
 
