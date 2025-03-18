@@ -8,8 +8,9 @@ import mn.nomin.demo.core.BaseEntity;
 @Entity
 public class Course extends BaseEntity {
 
-    private String name, imgUrl, userEmail;
+    private String name, imgUrl;
     private Integer price, realPrice;
+    private String userEmail;
 
     public Course() {
 

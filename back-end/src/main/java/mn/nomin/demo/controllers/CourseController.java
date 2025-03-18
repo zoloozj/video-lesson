@@ -30,6 +30,16 @@ public class CourseController {
         return courseServiceImpl.getAllCourses();
     }
 
+    @PostMapping("/user")
+    public ResponseEntity<List<Course>> getCoursesByUserEmail(@RequestBody String userEmail) {
+        List<Course> courses = courseServiceImpl.getCoursesByUserEmail("zoljargal.b@gmail.com");
+        if (courses.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(courses);
+        }
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<Course> getCourseById(@PathVariable Long id) {
         Optional<Course> course = courseServiceImpl.getCourseById(id);

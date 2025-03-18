@@ -2,6 +2,7 @@ package mn.nomin.demo.services.impl;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
@@ -41,6 +42,12 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
     public void deleteCourse(Long id) {
         Optional<Course> course = courseRepository.findById(id);
         course.ifPresent(courseRepository::delete);
+    }
+
+    public List<Course> getCoursesByUserEmail(String userEmail) {
+        return courseRepository.findAll().stream()
+                .filter(course -> userEmail != null && userEmail.equals(course.getUserEmail()))
+                .collect(Collectors.toList());
     }
 
 }

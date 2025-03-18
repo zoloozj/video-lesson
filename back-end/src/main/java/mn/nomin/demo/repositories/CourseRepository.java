@@ -7,5 +7,4 @@ import mn.nomin.demo.entities.Course;
 
 @Repository
 public interface CourseRepository extends JpaRepository<Course, Long> {
-
 }
