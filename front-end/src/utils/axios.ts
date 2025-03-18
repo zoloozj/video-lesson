@@ -45,4 +45,7 @@ export const endpoints = {
   course: {
     get_all_course: '/course',
   },
+  lesson: {
+    get_lesson_by_courseID: (id: string) => `/lesson/course/${id}`,
+  },
 };

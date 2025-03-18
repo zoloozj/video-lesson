@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import mn.nomin.demo.dtos.LessonDto;
 import mn.nomin.demo.entities.Lesson;
 import mn.nomin.demo.services.impl.LessonServiceImpl;
 
@@ -28,6 +29,16 @@ public class LessonController {
     @GetMapping
     public List<Lesson> getAllLessons() {
         return lessonServiceImpl.getAllLessons();
+    }
+
+    @GetMapping("/course/{courseId}")
+    public ResponseEntity<List<LessonDto>> getLessonsByCourseId(@PathVariable Long courseId) {
+        List<LessonDto> lessons = lessonServiceImpl.getLessonsByCourseId(courseId);
+        if (lessons.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        } else {
+            return ResponseEntity.ok(lessons);
+        }
     }
 
     @GetMapping("/{id}")
