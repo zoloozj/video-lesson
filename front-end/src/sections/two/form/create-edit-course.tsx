@@ -11,11 +11,11 @@ import { Box, Stack, Button } from '@mui/material';
 
 import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
 
-import { useSnackbar } from 'src/components/snackbar';
-import { RHFSwitch, RHFTextField } from 'src/components/hook-form';
-import FormProvider from 'src/components/hook-form/form-provider';
-
 import { useAuthContext } from 'src/auth/hooks';
+
+import { useSnackbar } from 'src/components/snackbar';
+import { RHFTextField } from 'src/components/hook-form';
+import FormProvider from 'src/components/hook-form/form-provider';
 
 import { Course } from 'src/sections/one/type';
 
@@ -26,7 +26,7 @@ interface Props {
 }
 
 export default function CreateEditCourseForm({ editD, getList, onClose }: Props) {
-  const { object, string, number, boolean } = Yup;
+  const { object, string, number } = Yup;
   const { enqueueSnackbar } = useSnackbar();
   const { user } = useAuthContext();
 

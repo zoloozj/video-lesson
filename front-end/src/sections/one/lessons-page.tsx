@@ -1,15 +1,15 @@
 'use client';
 
 import axios from 'axios';
-import { useCallback, useEffect, useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 
-import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
+import { Dialog, Typography, DialogTitle } from '@mui/material';
+
+import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
+
 import { Lesson } from './type';
-import { Typography, Dialog, DialogTitle, IconButton, Stack, Box } from '@mui/material';
-import CreateEditLessonForm from './form/create-edit-lesson';
-import Iconify from 'src/components/iconify';
-import { useBoolean } from 'src/hooks/use-boolean';
 import SingleLessonPage from './single-lesson';
+import CreateEditLessonForm from './form/create-edit-lesson';
 
 interface Props {
   id: string;
@@ -40,7 +40,7 @@ export default function LessonsPage({ id, show, handleClose, isMine }: Props) {
 
   useEffect(() => {
     getLessonList();
-  }, []);
+  }, [getLessonList]);
 
   function getEmbedUrl(url: string) {
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -60,7 +60,7 @@ export default function LessonsPage({ id, show, handleClose, isMine }: Props) {
           title="Youtube player"
           sandbox="allow-same-origin allow-forms allow-popups allow-scripts allow-presentation"
           src={getEmbedUrl(lesson[videoIndex]?.videoUrl) || ''}
-        ></iframe>
+        />
       </div>
       <section className="content-container">
         <h2 className="content-title">Хичээлүүд</h2>

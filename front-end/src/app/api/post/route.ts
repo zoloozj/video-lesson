@@ -1,12 +1,7 @@
 import axios from 'axios';
-import { cookies } from 'next/headers';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function getToken() {
-  const cookieStore = cookies();
-  const token = cookieStore.get('accessToken')?.value;
-  return token;
-}
+import { getToken } from 'src/utils/get-token';
 
 export async function POST(req: NextRequest) {
   try {

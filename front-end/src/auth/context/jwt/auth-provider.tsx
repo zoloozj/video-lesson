@@ -1,14 +1,12 @@
 'use client';
 
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import { useMemo, useEffect, useReducer, useCallback } from 'react';
-
-import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
 
 import { AuthContext } from './auth-context';
 import { setSession, isValidToken } from './utils';
 import { AuthUserType, ActionMapType, AuthStateType } from '../../types';
-import { jwtDecode } from 'jwt-decode';
 
 // ----------------------------------------------------------------------
 /**
@@ -78,7 +76,6 @@ const reducer = (state: AuthStateType, action: ActionsType) => {
 // ----------------------------------------------------------------------
 
 const STORAGE_KEY = 'accessToken';
-const USER_KEY = 'user';
 
 type Props = {
   children: React.ReactNode;
@@ -91,6 +88,7 @@ export function AuthProvider({ children }: Props) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop()?.split(';').shift();
+    return null;
   };
 
   const initialize = useCallback(async () => {
@@ -181,7 +179,7 @@ export function AuthProvider({ children }: Props) {
 
     const res = await axios.post('/api/auth/signup', { ...data });
 
-    const { token, user } = res.data;
+    const { token } = res.data;
     document.cookie = `${STORAGE_KEY}=${token}; path=/; max-age=${24 * 60 * 60}`;
     sessionStorage.setItem(STORAGE_KEY, token);
     const decodedToken = jwtDecode(token || '');

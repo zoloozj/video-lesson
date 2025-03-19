@@ -1,23 +1,28 @@
 'use client';
 
 import axios from 'axios';
+import { useState, useEffect, useCallback } from 'react';
+
 import Container from '@mui/material/Container';
-import { useCallback, useEffect, useState } from 'react';
 import {
+  Stack,
   Button,
   Dialog,
-  DialogContent,
+  Typography,
   DialogProps,
   DialogTitle,
-  Stack,
-  Typography,
+  DialogContent,
 } from '@mui/material';
 
-import Iconify from 'src/components/iconify';
-import { useAuthContext } from 'src/auth/hooks';
-import { useSettingsContext } from 'src/components/settings';
-import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
 import { useBoolean } from 'src/hooks/use-boolean';
+
+import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
+
+import { useAuthContext } from 'src/auth/hooks';
+
+import Iconify from 'src/components/iconify';
+import { useSettingsContext } from 'src/components/settings';
+
 import { Course } from './type';
 import LessonsPage from './lessons-page';
 import CreateEditCourseForm from '../two/form/create-edit-course';

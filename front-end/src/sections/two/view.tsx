@@ -1,19 +1,24 @@
 'use client';
 
 import axios from 'axios';
+import { useState, useEffect, useCallback } from 'react';
+
 import Container from '@mui/material/Container';
+import { Button, Dialog, DialogProps, DialogTitle, DialogContent } from '@mui/material';
+
+import { useBoolean } from 'src/hooks/use-boolean';
+
+import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
 
 import { useAuthContext } from 'src/auth/hooks';
+
+import Iconify from 'src/components/iconify';
 import { useSnackbar } from 'src/components/snackbar';
-import { useCallback, useEffect, useState } from 'react';
 import { useSettingsContext } from 'src/components/settings';
-import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
+import CustomBreadcrumbs from 'src/components/custom-breadcrumbs.tsx';
+
 import { Course } from '../one/type';
 import SingleCourse from '../one/_components/course';
-import CustomBreadcrumbs from 'src/components/custom-breadcrumbs.tsx';
-import { Button, Dialog, DialogContent, DialogProps, DialogTitle } from '@mui/material';
-import Iconify from 'src/components/iconify';
-import { useBoolean } from 'src/hooks/use-boolean';
 import CreateEditCourseForm from './form/create-edit-course';
 
 // ----------------------------------------------------------------------

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { NextRequest, NextResponse } from 'next/server';
-import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
+
+import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
 
 export async function POST(req: NextRequest) {
   try {

@@ -11,12 +11,13 @@ import { Box, Stack, Button } from '@mui/material';
 
 import { endpoints, getBaseUrl, BaseUrlTypes } from 'src/utils/axios';
 
+import { useAuthContext } from 'src/auth/hooks';
+
 import { useSnackbar } from 'src/components/snackbar';
-import { RHFSwitch, RHFTextField } from 'src/components/hook-form';
 import FormProvider from 'src/components/hook-form/form-provider';
+import { RHFSwitch, RHFTextField } from 'src/components/hook-form';
 
 import { Lesson } from '../type';
-import { useAuthContext } from 'src/auth/hooks';
 
 interface Props {
   editD?: Lesson;

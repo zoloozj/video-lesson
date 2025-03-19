@@ -1,6 +1,7 @@
 'use client';
 
 import { Box } from '@mui/material';
+
 import { Course } from '../type';
 
 interface Props {
@@ -13,7 +14,7 @@ export default function SingleCourse({ course }: Props) {
       <div className="cards-container">
         <div className="card-container">
           <a href={`/dashboard/course/${course.id}`}>
-            <img src={course.imgUrl} alt={'Course'} className="card-image" />
+            <img src={course.imgUrl} alt="Course" className="card-image" />
             <h2 className="card-title">{course.name}</h2>
             <small className="card-teacher">{course.userEmail}</small>
             <div className="card-rating-container">
