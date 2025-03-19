@@ -60,8 +60,10 @@ export default function OneView() {
           </label>
         </form>
       </div>
-      {courses.length > 0 &&
-        courses.map((course) => <SingleCourse key={course.id} course={course} />)}
+      <div className="cards-container">
+        {courses.length > 0 &&
+          courses.map((course) => <SingleCourse key={course.id} course={course} />)}
+      </div>
     </Container>
   );
 }

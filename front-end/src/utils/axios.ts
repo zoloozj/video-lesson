@@ -44,9 +44,14 @@ export const endpoints = {
   },
   course: {
     get_all_course: '/course',
+    get_course_by_id: (id: string) => `/course/${id}`,
     get_by_userEmail: '/course/user',
+    create_course: '/course',
+    edit_course: (id: number) => `/course/${id}`,
   },
   lesson: {
     get_lesson_by_courseID: (id: string) => `/lesson/course/${id}`,
+    create_lesson: '/lesson',
+    edit_lesson: (id: number) => `/lesson/${id}`,
   },
 };

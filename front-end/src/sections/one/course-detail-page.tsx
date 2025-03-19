@@ -1,12 +1,26 @@
 'use client';
 
-import Container from '@mui/material/Container';
 import axios from 'axios';
+import Container from '@mui/material/Container';
 import { useCallback, useEffect, useState } from 'react';
+import {
+  Button,
+  Dialog,
+  DialogContent,
+  DialogProps,
+  DialogTitle,
+  Stack,
+  Typography,
+} from '@mui/material';
 
+import Iconify from 'src/components/iconify';
+import { useAuthContext } from 'src/auth/hooks';
 import { useSettingsContext } from 'src/components/settings';
 import { BaseUrlTypes, endpoints, getBaseUrl } from 'src/utils/axios';
-import { Lesson } from './type';
+import { useBoolean } from 'src/hooks/use-boolean';
+import { Course } from './type';
+import LessonsPage from './lessons-page';
+import CreateEditCourseForm from '../two/form/create-edit-course';
 
 interface Props {
   id: string;
@@ -14,18 +28,18 @@ interface Props {
 
 export default function CourseDetailPage({ id }: Props) {
   const settings = useSettingsContext();
-  const [lesson, setLesson] = useState<Lesson[]>([]);
-  const [videoIndex, setIndex] = useState(0);
+  const { user } = useAuthContext();
+  const [course, setCourse] = useState<Course>();
 
-  const getLessonList = useCallback(async () => {
+  const getCourse = useCallback(async () => {
     try {
       const res = await axios.get(
         `/api/post?url=${getBaseUrl(
           BaseUrlTypes.ENUM_HOST_BASE_URI
-        )}${endpoints.lesson.get_lesson_by_courseID(id)}`
+        )}${endpoints.course.get_course_by_id(id)}`
       );
-      if (res.status === 200 && res.data) {
-        setLesson(res.data);
+      if (res.status === 200) {
+        setCourse(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -33,49 +47,63 @@ export default function CourseDetailPage({ id }: Props) {
   }, [id]);
 
   useEffect(() => {
-    getLessonList();
-  }, []);
+    getCourse();
+  }, [getCourse]);
 
-  function getEmbedUrl(url: string) {
-    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
-    const match = url?.match(regExp);
+  const show = useBoolean(false);
 
-    const videoId = match && match[2].length === 11 ? match[2] : null;
-    return videoId ? `https://www.youtube.com/embed/${videoId}` : null;
-  }
+  const handleClose: DialogProps['onClose'] = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+
+    show.onFalse();
+  };
+
+  const showEdit = useBoolean(false);
+
+  const handleCloseEdit: DialogProps['onClose'] = (event, reason) => {
+    if (reason && reason === 'backdropClick') return;
+
+    showEdit.onFalse();
+  };
+
+  const isMine = course?.userEmail === user?.email;
 
   return (
     <Container maxWidth={settings.themeStretch ? false : 'xl'}>
       <main>
-        <h1>{lesson[0]?.courseName}</h1>
-        <div className="main-bottom">
-          <div className="video-container">
-            <iframe
-              width={800}
-              height={400}
-              className="video"
-              title="Youtube player"
-              sandbox="allow-same-origin allow-forms allow-popups allow-scripts allow-presentation"
-              src={getEmbedUrl(lesson[videoIndex]?.videoUrl) || ''}
-            ></iframe>
-          </div>
-          <section className="content-container">
-            <h2 className="content-title">Хичээлүүд</h2>
-            {lesson &&
-              lesson.map((x, index) => (
-                <div
-                  onClick={() => setIndex(index)}
-                  key={index}
-                  className={`content-list-btn ${index === videoIndex && 'content-active'}`}
-                >
-                  <i className="far fa-play-circle"></i>
-                  <p className="lesson-title">{x.name}</p>
-                  <p className="lesson-time">{}</p>
-                </div>
-              ))}
-          </section>
-        </div>
+        <Stack direction="row" justifyContent="space-between" sx={{ mb: 2 }}>
+          <Typography variant="subtitle1" fontSize={24}>
+            {course?.name}
+          </Typography>
+          {isMine && (
+            <Stack direction="row" gap={2}>
+              <Button
+                variant="outlined"
+                size="large"
+                endIcon={<Iconify icon="solar:add-circle-linear" />}
+                onClick={showEdit.onTrue}
+              >
+                Сургалт засварлах
+              </Button>
+              <Button
+                variant="outlined"
+                size="large"
+                endIcon={<Iconify icon="solar:add-circle-linear" />}
+                onClick={show.onTrue}
+              >
+                Хичээл нэмэх
+              </Button>
+            </Stack>
+          )}
+        </Stack>
+        <LessonsPage id={id} show={show} handleClose={handleClose} isMine={isMine} />
       </main>
+      <Dialog fullWidth open={showEdit.value} onClose={handleCloseEdit}>
+        <DialogTitle>Сургалт Засварлах</DialogTitle>
+        <DialogContent>
+          <CreateEditCourseForm editD={course} getList={getCourse} onClose={showEdit.onFalse} />
+        </DialogContent>
+      </Dialog>
     </Container>
   );
 }
