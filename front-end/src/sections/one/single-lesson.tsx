@@ -1,6 +1,6 @@
 'use client';
 
-import { Stack, Dialog, IconButton, DialogTitle } from '@mui/material';
+import { Stack, Dialog, IconButton, DialogTitle, Button } from '@mui/material';
 
 import { useBoolean } from 'src/hooks/use-boolean';
 
@@ -31,15 +31,15 @@ export default function SingleLessonPage({
   const showEdit = useBoolean(false);
   return (
     <Stack key={index} direction="row" gap={2} width="100%">
-      <button
-        onClick={() => setIndex(index)}
-        className={`content-list-btn ${index === videoIndex && 'content-active'}`}
-        style={{ width: '100%', background: 'none', border: 'none', padding: 0, cursor: 'pointer' }}
-        type="button"
-      >
-        <i className="far fa-play-circle">{index + 1}</i>
-        <p className="lesson-title">{lesson.name}</p>
-      </button>
+      <Button onClick={() => setIndex(index)} sx={{ width: '100%' }} type="button">
+        <div
+          className={`content-list-btn ${index === videoIndex && 'content-active'}`}
+          style={{ width: '100%' }}
+        >
+          <i className="far fa-play-circle">{index + 1}</i>
+          <p className="lesson-title">{lesson.name}</p>
+        </div>
+      </Button>
       {isMine && (
         <IconButton onClick={showEdit.onTrue}>
           <Iconify icon="solar:pen-2-bold" />
