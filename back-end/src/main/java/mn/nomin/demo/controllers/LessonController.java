@@ -1,6 +1,7 @@
 package mn.nomin.demo.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -32,12 +33,19 @@ public class LessonController {
     }
 
     @GetMapping("/course/{courseId}")
-    public ResponseEntity<List<LessonDto>> getLessonsByCourseId(@PathVariable Long courseId) {
+    public ResponseEntity<Map<String, Object>> getLessonsByCourseId(@PathVariable Long courseId) {
         List<LessonDto> lessons = lessonServiceImpl.getLessonsByCourseId(courseId);
         if (lessons.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(200).body(Map.of(
+                    "message", "No content",
+                    "status", 404,
+                    "data", List.of() // Empty list
+            ));
         } else {
-            return ResponseEntity.ok(lessons);
+            return ResponseEntity.ok(Map.of(
+                    "message", "Success",
+                    "status", 200,
+                    "data", lessons));
         }
     }
 

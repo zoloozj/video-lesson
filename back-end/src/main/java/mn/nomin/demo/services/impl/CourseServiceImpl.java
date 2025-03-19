@@ -45,9 +45,11 @@ public class CourseServiceImpl extends BaseServiceImpl<Course> implements Course
     }
 
     public List<Course> getCoursesByUserEmail(String userEmail) {
-        return courseRepository.findAll().stream()
-                .filter(course -> userEmail != null && userEmail.equals(course.getUserEmail()))
-                .collect(Collectors.toList());
+        // return courseRepository.findAll().stream()
+        // .filter(course -> userEmail != null &&
+        // userEmail.equals(course.getUserEmail()))
+        // .collect(Collectors.toList());
+        return courseRepository.getCourseByUserEmail(userEmail);
     }
 
 }

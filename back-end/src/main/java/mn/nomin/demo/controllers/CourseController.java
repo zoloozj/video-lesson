@@ -31,8 +31,8 @@ public class CourseController {
     }
 
     @PostMapping("/user")
-    public ResponseEntity<List<Course>> getCoursesByUserEmail(@RequestBody String userEmail) {
-        List<Course> courses = courseServiceImpl.getCoursesByUserEmail("zoljargal.b@gmail.com");
+    public ResponseEntity<List<Course>> getCoursesByUserEmail(@RequestBody Course course) {
+        List<Course> courses = courseServiceImpl.getCoursesByUserEmail(course.getUserEmail());
         if (courses.isEmpty()) {
             return ResponseEntity.notFound().build();
         } else {
