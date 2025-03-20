@@ -25,6 +25,7 @@ import { useSettingsContext } from 'src/components/settings';
 
 import { Course } from './type';
 import LessonsPage from './lessons-page';
+import CommentPage from './_components/comment';
 import CreateEditCourseForm from '../two/form/create-edit-course';
 
 interface Props {
@@ -102,6 +103,8 @@ export default function CourseDetailPage({ id }: Props) {
           )}
         </Stack>
         <LessonsPage id={id} show={show} handleClose={handleClose} isMine={isMine} />
+        <Typography variant="subtitle1">Сэтгэгдэл</Typography>
+        {course && <CommentPage courseId={course.id} />}
       </main>
       <Dialog fullWidth open={showEdit.value} onClose={handleCloseEdit}>
         <DialogTitle>Сургалт Засварлах</DialogTitle>

@@ -21,3 +21,12 @@ export type Lesson = {
   courseId: number;
   courseName: string;
 };
+
+export type Comment = {
+  id: number;
+  courseId: number;
+  comment: string;
+  userEmail: string;
+  createdDate: string; // ISO date string
+  modifiedDate: string; // ISO date string
+};

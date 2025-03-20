@@ -54,4 +54,8 @@ export const endpoints = {
     create_lesson: '/lesson',
     edit_lesson: (id: number) => `/lesson/${id}`,
   },
+  comment: {
+    get_comment_by_courseId: (id: number) => `/comment/course/${id}`,
+    create_comment: `/comment`,
+  },
 };
