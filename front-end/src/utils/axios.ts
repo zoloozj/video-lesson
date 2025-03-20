@@ -41,6 +41,8 @@ export const endpoints = {
     login: '/auth/login',
     register: '/auth/signup',
     get_all_users: '/users',
+    get_login_user: '/users/me',
+    change__password: '/auth/change-password',
   },
   course: {
     get_all_course: '/course',

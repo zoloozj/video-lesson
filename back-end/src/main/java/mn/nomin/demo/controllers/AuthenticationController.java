@@ -1,6 +1,7 @@
 package mn.nomin.demo.controllers;
 
 import mn.nomin.demo.entities.User;
+import mn.nomin.demo.dtos.ChangePasswordDto;
 import mn.nomin.demo.dtos.LoginUserDto;
 import mn.nomin.demo.dtos.RegisterUserDto;
 import mn.nomin.demo.responses.LoginResponse;
@@ -36,8 +37,16 @@ public class AuthenticationController {
 
         String jwtToken = jwtService.generateToken(authenticatedUser);
 
-        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken).setExpiresIn(jwtService.getExpirationTime());
+        LoginResponse loginResponse = new LoginResponse().setToken(jwtToken)
+                .setExpiresIn(jwtService.getExpirationTime());
 
         return ResponseEntity.ok(loginResponse);
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<String> changePassword(@RequestBody ChangePasswordDto changePasswordDto) {
+        authenticationService.changePassword(changePasswordDto);
+        return ResponseEntity.ok("Password changed successfully.");
+    }
+
 }
